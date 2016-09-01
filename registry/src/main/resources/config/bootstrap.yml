@@ -1,0 +1,15 @@
+server:
+  port: 7777
+
+management:
+  context-path: /management
+
+spring:
+  application:
+    name: registry
+  mvc:
+    favicon:
+      enabled: false
+
+
+

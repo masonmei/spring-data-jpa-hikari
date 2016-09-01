@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: blog
+server:
+  port: 8082
+  context-path: /blog
+
+management:
+  context-path: /management

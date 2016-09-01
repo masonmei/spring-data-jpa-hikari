@@ -1,0 +1,24 @@
+logging:
+  level:
+     org:
+       springframework:
+         security: DEBUG
+
+
+zuul:
+  sensitive-headers:
+  routes:
+    AUTHSERVER:
+      path: /uaa/**
+      strip-prefix: false
+    BLOG:
+      path: /blog/**
+      strip-prefix: false
+  add-proxy-headers: true
+  strip-prefix: false
+spring:
+  aop:
+    proxy-target-class: true
+  pid:
+    fail-on-write-error: true
+    file: ${spring.application.name}.pid

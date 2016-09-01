@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: embeddb
+  jpa:
+    show-sql: true
+    generate-ddl: true
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        web-allow-others: true
+        trace: true
+  datasource:
+    url: jdbc:h2:~/blogdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE;
+    driverClassName: org.h2.Driver
+server:
+  port: 3333
+
+management:
+  context-path: /management
