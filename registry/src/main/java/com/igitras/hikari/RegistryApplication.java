@@ -1,8 +1,8 @@
 package com.igitras.hikari;
 
-import org.springframework.boot.SpringApplication;
+import static org.springframework.boot.SpringApplication.run;
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 /**
@@ -10,10 +10,9 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  */
 @SpringBootApplication
 @EnableEurekaServer
-@EnableEurekaClient
 public class RegistryApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RegistryApplication.class, args);
+        run(RegistryApplication.class, args);
     }
 }

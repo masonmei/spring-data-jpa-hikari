@@ -11,5 +11,15 @@ spring:
     favicon:
       enabled: false
 
-
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://admin:admin@127.0.0.1:7777/eureka/
+security:
+  user:
+    name: admin
+    password: admin
+    role: USER,ADMIN
 

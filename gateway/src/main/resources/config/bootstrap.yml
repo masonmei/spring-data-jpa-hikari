@@ -10,19 +10,42 @@ spring:
   mvc:
     favicon:
       enabled: false
-
+  aop:
+    proxy-target-class: true
+  pid:
+    fail-on-write-error: true
+    file: ${spring.application.name}.pid
 management:
-  context-path: /management
   health:
     mail:
       enabled: false
 
 eureka:
     instance:
-        prefer-ip-address: true
+      prefer-ip-address: true
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     client:
+      serviceUrl:
+        defaultZone: http://admin:admin@127.0.0.1:7777/eureka/
+      enabled: true
+      healthcheck:
         enabled: true
-        healthcheck:
-          enabled: true
-        registerWithEureka: true
-        fetchRegistry: true
+      registerWithEureka: true
+      fetchRegistry: true
+
+logging:
+  level:
+     org:
+       springframework:
+         security: DEBUG
+
+
+zuul:
+  sensitive-headers:
+  routes:
+    BLOG:
+      path: /blog/**
+      strip-prefix: false
+  add-proxy-headers: true
+  strip-prefix: false
+

@@ -1,19 +1,18 @@
 spring:
   application:
     name: embeddb
-  jpa:
-    show-sql: true
-    generate-ddl: true
-  h2:
-    console:
-      enabled: true
-      path: /console
-      settings:
-        web-allow-others: true
-        trace: true
   datasource:
-    url: jdbc:h2:~/blogdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE;
-    driverClassName: org.h2.Driver
+    url: jdbc:mysql://127.0.0.1:3306/blogdb?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+  jpa:
+    database: MYSQL
+    show_sql: true
+    generate-ddl: true
+    properties:
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: true
 server:
   port: 3333
 
