@@ -29,7 +29,7 @@ public class BlogApplication {
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
-            repository.findAll().stream().forEach(System.out::println);
+            repository.findAll().forEach(System.out::println);
             repository.save(new BlogEntity().setAuthor("mason1")
                     .setContent("content1")
                     .setSummary("summary1")
