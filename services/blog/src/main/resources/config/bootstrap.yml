@@ -25,11 +25,15 @@ spring:
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: true
-server:
-  context-path: /blog
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
 
 management:
-  context-path: /management
+  context-path: /admin
+  info:
+    git:
+      mode: full
 
 logging:
   level:
@@ -39,3 +43,9 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://admin:admin@127.0.0.1:7777/eureka/
+
+info:
+  build:
+#    group: @project.groupId@
+#    version: @project.version@
+#    artifact: @project.artifactId@

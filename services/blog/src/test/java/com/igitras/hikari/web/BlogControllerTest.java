@@ -1,5 +1,6 @@
 package com.igitras.hikari.web;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -61,8 +62,9 @@ public class BlogControllerTest {
 
     @org.junit.Test
     public void search() throws Exception {
-        this.mvc.perform(get("/").accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        this.mvc.perform(get("/blogs").accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
+                .andDo(document("search-blog"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
     }
@@ -74,8 +76,9 @@ public class BlogControllerTest {
                 .setSummary("Summary")
                 .setTitle("Title");
         blogEntity = repository.saveAndFlush(blogEntity);
-        this.mvc.perform(get("/{id}", blogEntity.getId()).accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        this.mvc.perform(get("/blogs/{id}", blogEntity.getId()).accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
+                .andDo(document("find-blog"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.title").value("Title"));
@@ -87,10 +90,11 @@ public class BlogControllerTest {
                 .setContent("Content")
                 .setSummary("Summary")
                 .setTitle("Title");
-        this.mvc.perform(post("/").accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+        this.mvc.perform(post("/blogs/").accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(blogEntity)))
                 .andDo(print())
+                .andDo(document("create-blog"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Title"))
                 .andExpect(jsonPath("$.id").isNotEmpty());
@@ -105,10 +109,11 @@ public class BlogControllerTest {
                 .setTitle("Title");
         blogEntity = repository.saveAndFlush(blogEntity);
         blogEntity.setTitle("title1");
-        this.mvc.perform(put("/{id}", blogEntity.getId()).accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+        this.mvc.perform(put("/blogs/{id}", blogEntity.getId()).accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(blogEntity)))
                 .andDo(print())
+                .andDo(document("update-blog"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("title1"))
                 .andExpect(jsonPath("$.id").isNotEmpty());
@@ -122,10 +127,11 @@ public class BlogControllerTest {
                 .setTitle("Title1");
         blogEntity = repository.saveAndFlush(blogEntity);
         blogEntity.setAuthor("author1");
-        this.mvc.perform(patch("/{id}", 1).accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+        this.mvc.perform(patch("/blogs/{id}", 1).accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(blogEntity)))
                 .andDo(print())
+                .andDo(document("patch-update-blog"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.author").value("author1"))
                 .andExpect(jsonPath("$.id").isNotEmpty());
@@ -138,8 +144,9 @@ public class BlogControllerTest {
                 .setSummary("Summary")
                 .setTitle("Title");
         blogEntity = repository.saveAndFlush(blogEntity);
-        this.mvc.perform(delete("/{id}", blogEntity.getId()).accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        this.mvc.perform(delete("/blogs/{id}", blogEntity.getId()).accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
+                .andDo(document("remove-blog"))
                 .andExpect(status().isOk());
     }
 

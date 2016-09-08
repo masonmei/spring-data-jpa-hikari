@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @author mason
  */
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient
 @EnableJpaAuditing
 @EnableJpaRepositories
 public class BlogApplication {
