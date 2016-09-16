@@ -1,0 +1,301 @@
+= Demo for asciidoc
+mason;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+
+[[Blog]]
+= Blog
+
+The Blog API provides access to current blog services.
+
+
+[[Blog查询]]
+== Blog查询
+
+Blog 查询 URI: `blogs`.
+
+
+[[Blog查询请求]]
+=== 请求样例
+
+==== Curl 请求
+include::{snippets}/blogs/search/curl-request.adoc[]
+
+
+==== Http 请求
+include::{snippets}/blogs/search/http-request.adoc[]
+
+
+==== Http-IE 请求
+include::{snippets}/blogs/search/httpie-request.adoc[]
+
+
+[[Blog查询响应]]
+=== 响应样例
+include::{snippets}/blogs/search/http-response.adoc[]
+
+
+[[Blog获取]]
+== Blog获取
+
+Blog 查询 URI: `blogs/{blogId}`.
+
+[[Blog获取请求]]
+=== 请求样例
+
+==== Curl 请求
+include::{snippets}/blogs/find/curl-request.adoc[]
+
+
+==== Http 请求
+include::{snippets}/blogs/find/http-request.adoc[]
+
+
+==== Http-IE 请求
+include::{snippets}/blogs/find/httpie-request.adoc[]
+
+
+[[Blog获取响应]]
+=== 响应样例
+include::{snippets}/blogs/find/http-response.adoc[]
+
+[[Blog创建]]
+== Blog创建
+
+Blog 创建 URI: `blogs`.
+
+[[Blog创建请求]]
+=== 请求样例
+
+==== Curl 请求
+include::{snippets}/blogs/create/curl-request.adoc[]
+
+
+==== Http 请求
+include::{snippets}/blogs/create/http-request.adoc[]
+
+
+==== Http-IE 请求
+include::{snippets}/blogs/create/httpie-request.adoc[]
+
+
+[[Blog创建响应]]
+=== 响应样例
+include::{snippets}/blogs/create/http-response.adoc[]
+
+
+[[Blog更新]]
+== Blog更新
+
+Blog 更新 URI: `blogs/{blogId}`.
+
+[[Blog更新请求]]
+=== 请求样例
+
+==== Curl 请求
+include::{snippets}/blogs/update/curl-request.adoc[]
+
+
+==== Http 请求
+include::{snippets}/blogs/update/http-request.adoc[]
+
+
+==== Http-IE 请求
+include::{snippets}/blogs/update/httpie-request.adoc[]
+
+
+[[Blog更新响应]]
+=== 响应样例
+include::{snippets}/blogs/update/http-response.adoc[]
+
+
+
+[[Blog部分更新]]
+== Blog部分更新
+
+Blog 部分更新 URI: `blogs/{blogId}`.
+
+[[Blog部分更新请求]]
+=== 请求样例
+
+==== Curl 请求
+include::{snippets}/blogs/patch-update/curl-request.adoc[]
+
+
+==== Http 请求
+include::{snippets}/blogs/patch-update/http-request.adoc[]
+
+
+==== Http-IE 请求
+include::{snippets}/blogs/patch-update/httpie-request.adoc[]
+
+
+[[Blog部分更新响应]]
+=== 响应样例
+include::{snippets}/blogs/patch-update/http-response.adoc[]
+
+
+
+[[Blog删除]]
+== Blog删除
+
+Blog 删除 URI: `blogs/{blogId}`.
+
+[[Blog删除请求]]
+=== 请求样例
+
+==== Curl 请求
+include::{snippets}/blogs/patch-update/curl-request.adoc[]
+
+
+==== Http 请求
+include::{snippets}/blogs/patch-update/http-request.adoc[]
+
+
+==== Http-IE 请求
+include::{snippets}/blogs/patch-update/httpie-request.adoc[]
+
+
+[[Blog删除响应]]
+=== 响应样例
+include::{snippets}/blogs/patch-update/http-response.adoc[]
+
+
+
+[[Persons]]
+= Persons
+
+The Persons API provides access to current persons services.
+
+
+[[Person查询]]
+== Person查询
+
+Person 查询 URI: `persons`.
+
+
+[[Person查询请求]]
+=== 请求样例
+
+==== Curl 请求
+include::{snippets}/persons/search/curl-request.adoc[]
+
+
+==== Http 请求
+include::{snippets}/persons/search/http-request.adoc[]
+
+
+==== Http-IE 请求
+include::{snippets}/persons/search/httpie-request.adoc[]
+
+
+[[Person查询响应]]
+=== 响应样例
+include::{snippets}/persons/search/http-response.adoc[]
+
+
+[[Person获取]]
+== Person获取
+
+Person 查询 URI: `persons/{personId}`.
+
+[[Person获取请求]]
+=== 请求样例
+
+==== Curl 请求
+include::{snippets}/persons/find/curl-request.adoc[]
+
+
+==== Http 请求
+include::{snippets}/persons/find/http-request.adoc[]
+
+
+==== Http-IE 请求
+include::{snippets}/persons/find/httpie-request.adoc[]
+
+
+[[Person获取响应]]
+=== 响应样例
+include::{snippets}/persons/find/http-response.adoc[]
+
+[[Person创建]]
+== Person创建
+
+Person 创建 URI: `persons`.
+
+[[Person创建请求]]
+=== 请求样例
+
+==== Curl 请求
+include::{snippets}/persons/create/curl-request.adoc[]
+
+
+==== Http 请求
+include::{snippets}/persons/create/http-request.adoc[]
+
+
+==== Http-IE 请求
+include::{snippets}/persons/create/httpie-request.adoc[]
+
+
+[[Person创建响应]]
+=== 响应样例
+include::{snippets}/persons/create/http-response.adoc[]
+
+
+[[Person更新]]
+== Person更新
+
+Person 更新 URI: `persons/{personId}`.
+
+[[Person更新请求]]
+=== 请求样例
+
+==== Curl 请求
+include::{snippets}/persons/update/curl-request.adoc[]
+
+
+==== Http 请求
+include::{snippets}/persons/update/http-request.adoc[]
+
+
+==== Http-IE 请求
+include::{snippets}/persons/update/httpie-request.adoc[]
+
+
+[[Person更新响应]]
+=== 响应样例
+include::{snippets}/persons/update/http-response.adoc[]
+
+
+
+[[Person部分更新]]
+== Person部分更新
+
+Person 部分更新 URI: `persons/{personId}`.
+
+[[Person部分更新请求]]
+=== 请求样例
+
+==== Curl 请求
+include::{snippets}/persons/patch-update/curl-request.adoc[]
+
+
+==== Http 请求
+include::{snippets}/persons/patch-update/http-request.adoc[]
+
+
+==== Http-IE 请求
+include::{snippets}/persons/patch-update/httpie-request.adoc[]
+
+
+[[Person部分更新响应]]
+=== 响应样例
+include::{snippets}/persons/patch-update/http-response.adoc[]
+
+

@@ -1,12 +1,12 @@
 spring:
   application:
-    name: blog
+    name: git-blog
   datasource:
     type: org.h2.jdbcx.JdbcDataSource
-    url:  jdbc:h2:mem:blogdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true;
+    url:  jdbc:h2:mem:gitblog;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true;
     username: sa
     password: sa
-    name: blogdb
+    name: gitblog
     driver-class-name: org.h2.Driver
   jpa:
     database-platform: H2
@@ -22,11 +22,13 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: false
       indent-output: true
     default-property-inclusion: NON_NULL
+  redis:
+    host: localhost
 server:
-  context-path: /blog
+  context-path: /git-blog
 
 management:
-  context-path: /management
+  context-path: /admin
 
 logging:
   level:

@@ -3,11 +3,7 @@ package com.igitras.hikari.web;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.stubVoid;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,8 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.igitras.hikari.service.PersonService;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
@@ -41,12 +35,13 @@ import java.util.Arrays;
  * @author mason
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(PersonResource.class)
-@TestPropertySource(locations = "classpath:config/bootstrap-test.yml")
 @AutoConfigureTestEntityManager
 @AutoConfigureDataJpa
-@AutoConfigureRestDocs
-public class PersonResourceTest {
+@WebMvcTest(PersonController.class)
+@TestPropertySource(locations = "classpath:config/bootstrap-test.yml")
+@AutoConfigureRestDocs(outputDir = "target/generated-snippets", uriHost = "igitras.com", uriPort = 80,
+        uriScheme = "https")
+public class PersonControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -75,6 +70,7 @@ public class PersonResourceTest {
         given(personService.findAll()).willReturn(Arrays.asList(person1, person2));
         this.mvc.perform(get("/persons").accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
+                .andDo(document("persons/search"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
     }
@@ -88,6 +84,7 @@ public class PersonResourceTest {
         given(personService.findOne(person.getId())).willReturn(person);
         this.mvc.perform(get("/persons/{id}", person.getId()).accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
+                .andDo(document("persons/find"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("Mason"));
@@ -107,6 +104,7 @@ public class PersonResourceTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(person)))
                 .andDo(print())
+                .andDo(document("persons/create"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Mason"))
                 .andExpect(jsonPath("$.id").isNotEmpty());
@@ -128,6 +126,7 @@ public class PersonResourceTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(updated)))
                 .andDo(print())
+                .andDo(document("persons/update"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("title1"))
                 .andExpect(jsonPath("$.id").isNotEmpty());
@@ -149,6 +148,7 @@ public class PersonResourceTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(updated)))
                 .andDo(print())
+                .andDo(document("persons/patch-update"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("author1"))
                 .andExpect(jsonPath("$.id").isNotEmpty());

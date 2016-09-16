@@ -17,18 +17,8 @@ spring:
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: true
-  jackson:
-    serialization:
-      WRITE_DATES_AS_TIMESTAMPS: false
-      indent-output: true
-    default-property-inclusion: NON_NULL
-server:
-  context-path: /blog
-
-management:
-  context-path: /management
 
 logging:
   level:
-#    org.springframework: debug
-#    org.hibernate: debug
+    org.springframework: debug
+    org.hibernate: debug

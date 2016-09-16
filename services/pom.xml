@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>blog</module>
+        <module>git-blog</module>
     </modules>
 
     <dependencies>

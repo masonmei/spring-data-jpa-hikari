@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("persons")
-public class PersonResource {
+public class PersonController {
 
     @Autowired
     private PersonService personService;

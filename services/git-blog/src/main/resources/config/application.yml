@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: git-blog
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://127.0.0.1:3306/gitblog?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+    hikari:
+      driver-class-name: com.mysql.jdbc.Driver
+      connection-test-query: select 1
+      connection-timeout: 250
+      maximum-pool-size: 5
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: MYSQL
+    show_sql: false
+    generate-ddl: false
+    properties:
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: true
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  cache:
+    caffeine:
+      spec: recordStats,maximumSize=500,expireAfterWrite=600s
+
+management:
+  context-path: /admin
+  info:
+    git:
+      mode: full
+
+logging:
+  level:
+#    org.springframework: debug
+#    org.hibernate: debug
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:admin@127.0.0.1:7777/eureka/
+project:
+  cors: #By default CORS are not enabled. Uncomment to enable.
+    allowed-origins: "*"
+    allowed-methods: GET, PUT, POST, DELETE, OPTIONS
+    allowed-headers: "*"
+    exposed-headers:
+    allow-credentials: true
+    max-age: 1800
+  download-folder: file:./data/

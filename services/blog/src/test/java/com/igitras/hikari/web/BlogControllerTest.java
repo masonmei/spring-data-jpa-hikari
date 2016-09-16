@@ -1,5 +1,6 @@
 package com.igitras.hikari.web;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -12,19 +13,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.igitras.hikari.domain.BlogEntity;
-import com.igitras.hikari.domain.BlogRepository;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Test cases for class .
@@ -32,53 +34,56 @@ import org.springframework.web.context.WebApplicationContext;
  * @author mason
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureRestDocs(value = "target/generated-snippets", uriHost = "igitras.com", uriPort = 80)
+@Transactional
+@AutoConfigureDataJpa
 @AutoConfigureTestDatabase
-@TestPropertySource(locations = "classpath:config/bootstrap-test.yml")
+@AutoConfigureTestEntityManager
+@WebMvcTest(BlogController.class)
+@AutoConfigureRestDocs(outputDir = "target/generated-snippets", uriHost = "igitras.com", uriPort = 80,
+        uriScheme = "https")
+@TestPropertySource(locations = "classpath:config/bootstrap-test.yml",
+        properties = "spring.jackson.serialization.indent-output:true")
 public class BlogControllerTest {
 
+    @Autowired
     private MockMvc mvc;
 
     @Autowired
-    public WebApplicationContext context;
+    private TestEntityManager entityManager;
 
     @Autowired
-    private BlogRepository repository;
-
-    @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     @Before
     public void setUp() throws Exception {
-        mvc = MockMvcBuilders.webAppContextSetup(context)
-                .build();
-        BlogEntity blogEntity = new BlogEntity().setAuthor("Mason")
-                .setContent("Content")
-                .setSummary("Summary")
-                .setTitle("Title");
-        repository.saveAndFlush(blogEntity);
     }
 
     @org.junit.Test
     public void search() throws Exception {
-        this.mvc.perform(get("/blogs").accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andDo(print())
-                .andDo(document("search-blog"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray());
-    }
-
-    @org.junit.Test
-    public void find() throws Exception {
         BlogEntity blogEntity = new BlogEntity().setAuthor("Mason")
                 .setContent("Content")
                 .setSummary("Summary")
                 .setTitle("Title");
-        blogEntity = repository.saveAndFlush(blogEntity);
+        entityManager.persist(blogEntity);
+        this.mvc.perform(get("/blogs").accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andDo(document("{class-name}/{method-name}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(1)));
+    }
+
+    @org.junit.Test
+    public void find() throws Exception {
+
+        BlogEntity blogEntity = new BlogEntity().setAuthor("Mason")
+                .setContent("Content")
+                .setSummary("Summary")
+                .setTitle("Title");
+        entityManager.persist(blogEntity);
         this.mvc.perform(get("/blogs/{id}", blogEntity.getId()).accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
-                .andDo(document("find-blog"))
+                .andDo(document("{class-name}/{method-name}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.title").value("Title"));
@@ -94,7 +99,7 @@ public class BlogControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(blogEntity)))
                 .andDo(print())
-                .andDo(document("create-blog"))
+                .andDo(document("{class-name}/{method-name}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Title"))
                 .andExpect(jsonPath("$.id").isNotEmpty());
@@ -107,13 +112,13 @@ public class BlogControllerTest {
                 .setContent("Content")
                 .setSummary("Summary")
                 .setTitle("Title");
-        blogEntity = repository.saveAndFlush(blogEntity);
+        entityManager.persist(blogEntity);
         blogEntity.setTitle("title1");
         this.mvc.perform(put("/blogs/{id}", blogEntity.getId()).accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(blogEntity)))
                 .andDo(print())
-                .andDo(document("update-blog"))
+                .andDo(document("{class-name}/{method-name}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("title1"))
                 .andExpect(jsonPath("$.id").isNotEmpty());
@@ -125,13 +130,13 @@ public class BlogControllerTest {
                 .setContent("Content")
                 .setSummary("Summary")
                 .setTitle("Title1");
-        blogEntity = repository.saveAndFlush(blogEntity);
+        entityManager.persist(blogEntity);
         blogEntity.setAuthor("author1");
-        this.mvc.perform(patch("/blogs/{id}", 1).accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+        this.mvc.perform(patch("/blogs/{id}", blogEntity.getId()).accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(blogEntity)))
                 .andDo(print())
-                .andDo(document("patch-update-blog"))
+                .andDo(document("{class-name}/{method-name}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.author").value("author1"))
                 .andExpect(jsonPath("$.id").isNotEmpty());
@@ -143,10 +148,10 @@ public class BlogControllerTest {
                 .setContent("Content")
                 .setSummary("Summary")
                 .setTitle("Title");
-        blogEntity = repository.saveAndFlush(blogEntity);
+        entityManager.persist(blogEntity);
         this.mvc.perform(delete("/blogs/{id}", blogEntity.getId()).accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
-                .andDo(document("remove-blog"))
+                .andDo(document("{class-name}/{method-name}"))
                 .andExpect(status().isOk());
     }
 

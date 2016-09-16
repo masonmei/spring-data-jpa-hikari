@@ -1,13 +1,21 @@
 package com.igitras.hikari.domain;
 
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,6 +45,12 @@ public class BlogEntity extends AbstractPersistable<Long> {
     @Basic(fetch = LAZY)
     @Lob
     private String content;
+
+    @ManyToMany(fetch = EAGER, cascade = {PERSIST, MERGE})
+    @JoinTable(name = "blog_tags",
+            joinColumns = @JoinColumn(name = "blog_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+    private Set<Tag> tags = new HashSet<>();
 
     public String getTitle() {
         return title;
@@ -71,6 +85,15 @@ public class BlogEntity extends AbstractPersistable<Long> {
 
     public BlogEntity setContent(String content) {
         this.content = content;
+        return this;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public BlogEntity setTags(Set<Tag> tags) {
+        this.tags = tags;
         return this;
     }
 }
