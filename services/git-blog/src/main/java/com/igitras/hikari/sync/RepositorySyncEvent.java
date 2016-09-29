@@ -1,5 +1,7 @@
 package com.igitras.hikari.sync;
 
+import com.igitras.hikari.domain.SyncRepo;
+
 import java.io.Serializable;
 
 /**
@@ -10,7 +12,7 @@ public class RepositorySyncEvent implements Serializable {
     private static final long serialVersionUID = 1510550190249047515L;
 
     private Type type;
-    private RepositorySyncTaskConfig.BasicTaskConfig config;
+    private SyncRepo syncRepo;
 
     public Type getType() {
         return type;
@@ -21,12 +23,12 @@ public class RepositorySyncEvent implements Serializable {
         return this;
     }
 
-    public RepositorySyncTaskConfig.BasicTaskConfig getConfig() {
-        return config;
+    public SyncRepo getSyncRepo() {
+        return syncRepo;
     }
 
-    public RepositorySyncEvent setConfig(RepositorySyncTaskConfig config) {
-        this.config = new RepositorySyncTaskConfig.BasicTaskConfig(config);
+    public RepositorySyncEvent setSyncRepo(SyncRepo syncRepo) {
+        this.syncRepo = syncRepo;
         return this;
     }
 

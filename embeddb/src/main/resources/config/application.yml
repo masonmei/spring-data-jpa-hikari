@@ -16,7 +16,7 @@ spring:
     database: MYSQL
     show_sql: true
     generate-ddl: true
-    properties:
+    appProperties:
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: true

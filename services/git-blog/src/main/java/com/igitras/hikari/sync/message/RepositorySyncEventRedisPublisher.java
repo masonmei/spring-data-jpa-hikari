@@ -14,17 +14,11 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
  *
  * @author mason
  */
-public class RepositorySyncEventRedisPublisher implements RepositorySyncEventPublisher, InitializingBean {
+public class RepositorySyncEventRedisPublisher implements RepositorySyncEventPublisher {
 
     private final RedisTemplate<String, RepositorySyncEvent> template;
 
-    private RedisConnectionFactory connectionFactory;
-
     private Topic topic;
-
-    public RepositorySyncEventRedisPublisher() {
-        this(new RedisTemplate<>());
-    }
 
     public RepositorySyncEventRedisPublisher(RedisTemplate<String, RepositorySyncEvent> template) {
         notNull(template, "RedisTemplate must not be null.");
@@ -35,21 +29,7 @@ public class RepositorySyncEventRedisPublisher implements RepositorySyncEventPub
         this.topic = topic;
         return this;
     }
-
-    public RepositorySyncEventRedisPublisher setConnectionFactory(RedisConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
-        return this;
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        this.template.setConnectionFactory(connectionFactory);
-        this.template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        this.template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
-        this.template.afterPropertiesSet();
-    }
-
-
+    
     @Override
     public void publish(RepositorySyncEvent event) {
         template.convertAndSend(topic.getTopic(), event);

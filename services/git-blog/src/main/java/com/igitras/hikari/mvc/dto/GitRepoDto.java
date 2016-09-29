@@ -1,5 +1,11 @@
 package com.igitras.hikari.mvc.dto;
 
+import static com.igitras.hikari.common.RepositoryStatus.INITIALIZED;
+import static com.igitras.hikari.common.RepositoryType.GITHUB_PUBLIC;
+
+import com.igitras.hikari.common.RepositoryStatus;
+import com.igitras.hikari.common.RepositoryType;
+
 import java.io.Serializable;
 
 /**
@@ -14,9 +20,14 @@ public class GitRepoDto implements Serializable {
 
     private String relativePath;
 
+    private String tagName;
+
     private Long refreshInterval;
 
-    private boolean enabled;
+    private RepositoryType repositoryType = GITHUB_PUBLIC;
+
+    private RepositoryStatus repositoryStatus = INITIALIZED;
+
 
     public Long getId() {
         return id;
@@ -45,6 +56,15 @@ public class GitRepoDto implements Serializable {
         return this;
     }
 
+    public String getTagName() {
+        return tagName;
+    }
+
+    public GitRepoDto setTagName(String tagName) {
+        this.tagName = tagName;
+        return this;
+    }
+
     public Long getRefreshInterval() {
         return refreshInterval;
     }
@@ -54,12 +74,21 @@ public class GitRepoDto implements Serializable {
         return this;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public RepositoryType getRepositoryType() {
+        return repositoryType;
     }
 
-    public GitRepoDto setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public GitRepoDto setRepositoryType(RepositoryType repositoryType) {
+        this.repositoryType = repositoryType;
+        return this;
+    }
+
+    public RepositoryStatus getRepositoryStatus() {
+        return repositoryStatus;
+    }
+
+    public GitRepoDto setRepositoryStatus(RepositoryStatus repositoryStatus) {
+        this.repositoryStatus = repositoryStatus;
         return this;
     }
 }

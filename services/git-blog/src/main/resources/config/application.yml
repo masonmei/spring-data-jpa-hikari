@@ -11,7 +11,7 @@ spring:
       connection-test-query: select 1
       connection-timeout: 250
       maximum-pool-size: 5
-      data-source-properties:
+      data-source-appProperties:
         cachePrepStmts: true
         prepStmtCacheSize: 250
         prepStmtCacheSqlLimit: 2048
@@ -21,7 +21,7 @@ spring:
     database: MYSQL
     show_sql: false
     generate-ddl: false
-    properties:
+    appProperties:
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: true
@@ -31,6 +31,11 @@ spring:
   cache:
     caffeine:
       spec: recordStats,maximumSize=500,expireAfterWrite=600s
+  data:
+    rest:
+      base-path: /api
+      return-body-on-create: true
+      return-body-on-update: true
 
 management:
   context-path: /admin

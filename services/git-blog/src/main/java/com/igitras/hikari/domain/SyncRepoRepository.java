@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author mason
  */
-public interface GitRepoRepository extends JpaRepository<GitRepoEntity, Long> {
+public interface SyncRepoRepository extends JpaRepository<SyncRepo, Long> {
 
 }

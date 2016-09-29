@@ -1,5 +1,6 @@
 package com.igitras.hikari.mvc.rest;
 
+import static com.igitras.hikari.utils.FileUtil.resolveFolder;
 import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 import static org.springframework.web.servlet.HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE;
 
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author mason
  */
 @RestController
-@RequestMapping(value = "blog-files")
+@RequestMapping(value = "api/files")
 public class BlogFileResource {
     @Autowired
     private FileService fileService;
@@ -40,7 +41,7 @@ public class BlogFileResource {
         String mappingPattern = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
         String mapping = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
         String path = new AntPathMatcher().extractPathWithinPattern(mappingPattern, mapping);
-        File directory = FileUtil.resolveFolder(properties.getDownloadFolder());
+        File directory = resolveFolder(properties.getDownloadFolder());
         return fileService.loadFiles(directory, path);
     }
 }

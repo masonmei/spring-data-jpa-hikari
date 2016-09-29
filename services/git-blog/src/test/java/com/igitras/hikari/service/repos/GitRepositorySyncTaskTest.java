@@ -1,5 +1,8 @@
 package com.igitras.hikari.service.repos;
 
+import com.igitras.hikari.common.RepositoryType;
+import com.igitras.hikari.service.repos.github.GithubRepoSyncTask;
+import com.igitras.hikari.service.repos.github.GithubRepoSyncTaskContext;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,28 +15,30 @@ import java.io.File;
  */
 public class GitRepositorySyncTaskTest {
 
-    private GitRepositorySyncTaskContext context;
+    private GithubRepoSyncTaskContext context;
 
     @Before
     public void setUp() throws Exception {
-        context = new GitRepositorySyncTaskContext()
-                .setRemoteUrl("https://github.com/masonmei/mason-demo.git")
-                .setTargetFolder(new File("./target/mason-demo"));
+        context = (GithubRepoSyncTaskContext) new GithubRepoSyncTaskContext()
+                .setRepository("https://github.com/masonmei/mason-demo.git")
+                .setRepositoryType(RepositoryType.GITHUB_PUBLIC)
+                .setBaseFolder(new File("./"))
+                .setRelativePath("target/mason-demo");
     }
 
     @Test
     public void run() throws Exception {
-        new GitRepositorySyncTask(context).run();
+        new GithubRepoSyncTask(context).run();
     }
 
     @Test
     public void pullRepository() throws Exception {
-        new GitRepositorySyncTask(context).pullRepository();
+        new GithubRepoSyncTask(context).pullRepository();
     }
 
     @Test
     public void cloneRepository() throws Exception {
-        new GitRepositorySyncTask(context).cloneRepository();
+        new GithubRepoSyncTask(context).cloneRepository();
     }
 
 }
