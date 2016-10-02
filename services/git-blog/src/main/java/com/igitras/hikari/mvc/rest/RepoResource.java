@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Git Repositories controller.
@@ -32,6 +34,20 @@ public class RepoResource {
 
     @Autowired
     private SyncRepoRepository repository;
+
+    @GetMapping("all")
+    public List<GitRepoDto> all() {
+
+        return repository.findAll()
+                .stream()
+                .map(source -> new GitRepoDto().setId(source.getId())
+                        .setRepositoryType(source.getRepositoryType())
+                        .setTagName(source.getTagName())
+                        .setRefreshInterval(source.getRefreshInterval())
+                        .setRelativePath(source.getRelativePath())
+                        .setRepository(source.getRepository()))
+                .collect(Collectors.toList());
+    }
 
     @GetMapping
     public Page<GitRepoDto> search(Pageable page) {

@@ -16,6 +16,7 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Validator;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -67,6 +68,11 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
             LOG.error("No valid download data folder configured.");
             context.close();
         }
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/**");
     }
 }
 
